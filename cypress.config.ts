@@ -1,15 +1,26 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
+  reporter: 'cypress-mochawesome-reporter',
+  reporterOptions: {
+    charts: true,
+    reportPageTitle: 'custom-title',
+    embeddedScreenshots: true,
+    inlineAssets: true,
+    saveAllAttempts: false,
+    log: true,
+    quest: true,
+  },
   e2e: {
     baseUrl: 'http://localhost:4200',
-  "viewportWidth": 1920,
-  "viewportHeight": 1080,
-  "video": true,
-  "screenshotsFolder": "cypress/screenshots",
-  "videosFolder": "cypress/videos",
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      require('cypress-mochawesome-reporter/plugin')(on);
     },
   },
 });
+
+//install cypress mochawesome-reporter
+//npm i --save-dev cypress-mochawesome-reporter
+
+// add reporter and reporterOptions to cypress.config.json the
+//

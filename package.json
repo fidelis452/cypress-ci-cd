@@ -6,9 +6,14 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
     "cypress:open": "npx cypress open",
-    "cypress:run": "npx cypress run"
+    "test": "cypress run",
+    "test:mocha-reporter": "npm test --reporter mochawesome --reporter-options reportDir=\"results\",overwrite=false,html=false,json=true",
+    "merge-report": "mochawesome-merge \"results/*.json\" > index.json",
+    "build-report": "marge index.json",
+    "open-report": "npm merge-report && yarn build-report && serve mochawesome-report",
+    "test:cy2": "cy2 run --reporter mochawesome --reporter-options reportDir=\"results\",overwrite=false,html=false,json=true",
+    "test:parallel": "CYPRESS_API_URL=http://localhost:1234 && yarn test:cy2 --parallel --record --key somekey"
   },
   "private": true,
   "dependencies": {
@@ -24,7 +29,8 @@
     "cypress-mochawesome-reporter": "^3.8.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "zone.js": "~0.14.3",
+    "cy2": "^3.1.7"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.2.1",

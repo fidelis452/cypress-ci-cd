@@ -49,15 +49,6 @@ pipeline {
                 }
             }
         }
-        
-        stage("Stop UI") {
-            steps {
-                script {
-                    // Stop the UI gracefully (you may need to adjust this based on your needs)
-                    bat 'taskkill /F /FI "MEMUSAGE gt 100" /IM node.exe'
-                }
-            }
-        }
     }
 
 }

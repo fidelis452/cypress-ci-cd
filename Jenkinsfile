@@ -36,19 +36,19 @@ pipeline {
             }
         }
 
-        // stage('Serve Angular App') {
-        //     steps {
-        //         bat 'http-server -p 4200 -c-1 dist/angular-cypress-cicd'
-        //     }
-        // }
+        stage('Serve Angular App') {
+            steps {
+                bat 'http-server -p 4200 -c-1 dist/angular-cypress-cicd'
+            }
+        }
 
             stage('Serve Angular App') {
             steps {
-                    // Change the directory to the Angular app's dist folder
-                    dir('dist/angular-cypress-cicd') {
-                        // Start http-server to serve the Angular app
                         bat 'http-server -p 4200 -c-1'
-                    }
+                    // Change the directory to the Angular app's dist folder
+                    // dir('dist/angular-cypress-cicd') {
+                        // Start http-server to serve the Angular app
+                    // }
                 }
             }
 

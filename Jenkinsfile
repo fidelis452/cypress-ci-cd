@@ -30,7 +30,7 @@ pipeline {
                     steps {
                        script {
                             // run the UI
-                            bat(script: 'start /B ng serve', returnStatus: true)
+                            bat(script: 'ng serve', returnStatus: true)
                             echo 'UI script completed successfully'                           
                         }
                     }

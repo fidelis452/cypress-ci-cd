@@ -18,11 +18,11 @@ pipeline {
             }
         }
 
-        // stage('Install http-server') {
-        //     steps {
-        //         bat 'npm install -g http-server'
-        //     }
-        // }
+        stage('Install http-server') {
+            steps {
+                bat 'npm install -g http-server'
+            }
+        }
 
         stage('Install Dependencies') {
             steps {
@@ -41,6 +41,16 @@ pipeline {
         //         bat 'http-server -p 4200 -c-1 dist/angular-cypress-cicd'
         //     }
         // }
+
+            stage('Serve Angular App') {
+            steps {
+                    // Change the directory to the Angular app's dist folder
+                    dir('dist/angular-cypress-cicd') {
+                        // Start http-server to serve the Angular app
+                        bat 'http-server -p 4200 -c-1'
+                    }
+                }
+            }
 
         stage('Run Cypress Tests and open report') {
             steps {

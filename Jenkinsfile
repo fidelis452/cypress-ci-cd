@@ -18,35 +18,33 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+                bat 'npm install' 
             }
         }
-        
-        // stage('Build Angular App') {
-        //     steps {
-        //         bat 'npx ng build'
-        //     }
-        // }
 
-        stage('Serve Angular App') {
+        stage('Run UI and Cypress Tests in Parallel') {
             parallel {
-                stage('Serve Angular App') {
+                stage('Run UI') {
                     steps {
-                        // Use the full path to http-server binary
-                        bat(script: 'start /B ng serve', returnStatus: true)
+                       script {
+                            // run the UI
+                            bat(script: 'start /B ng serve', returnStatus: true)
+                           
+                        }
                     }
                 }
-
-                stage('Run Cypress Tests and open report') {
+                stage('Run Cypress Tests') {
                     steps {
-                        bat 'npx cypress run'
+                            // Run Cypress Tests
+                            bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
+                        
                     }
                 }
             }
         }
     }
 
-   post {
+    post {
         always {
             archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
         }

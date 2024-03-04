@@ -6,11 +6,13 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main',
+                git branch: '*/main',
                     credentialsId: 'e8fd72ce-1dc5-40ee-85ca-3fcb31b0c9bd',
                     url: 'https://github.com/fidelis452/cypress-ci-cd.git'
             }
         }
+
+        
         
         stage('Install Angular CLI') {
             steps {
@@ -26,13 +28,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'npm install -g node'
+                bat 'npm install'
             }
         }
         
         stage('Build Angular App') {
             steps {
-                bat 'npx ng build --prod'
+                bat 'npx ng build'
             }
         }
 

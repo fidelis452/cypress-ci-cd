@@ -12,9 +12,15 @@ pipeline {
             }
         }
         
-        stage("install ng") {
-            steps{
-                bat 'npm install -g @angular/cli'
+        stage('Install Angular CLI') {
+            steps {
+                bat 'npm install @angular/cli --save-dev'
+            }
+        }
+
+        stage('Install http-server') {
+            steps {
+                bat 'npm install -g http-server'
             }
         }
 
@@ -24,22 +30,17 @@ pipeline {
             }
         }
         
-        stage('Serve the Angular App') {
+        stage('Build Angular App') {
             steps {
-                bat 'npx ng serve open'
-                
-                // Wait for Angular application to be available
-                script {
-                    def appUrl = 'http://localhost:4200/'
-                    echo "Waiting for the Angular application at $appUrl to be available..."
-                    waitUntil {
-                        return bat(script: "curl --silent --fail $appUrl", returnStatus: true) == 0
-                    }
-                    echo "Angular application is available."
-                }
+                bat 'npx ng build --prod'
             }
         }
-        
+
+        stage('Serve Angular App') {
+            steps {
+                bat 'http-server -p 4200 -c-1 dist/angular-cypress-cicd'
+            }
+        }
 
         stage('Run Cypress Tests and open report') {
             steps {

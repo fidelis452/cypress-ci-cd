@@ -10,13 +10,11 @@ pipeline {
                     credentialsId: 'e8fd72ce-1dc5-40ee-85ca-3fcb31b0c9bd',
                     url: 'https://github.com/fidelis452/cypress-ci-cd.git'
             }
-        }
-
-        
+        }     
         
         stage('Install Angular CLI') {
             steps {
-                bat 'npm install @angular/cli --save-dev'
+                bat 'npm install -g @angular/cli'
             }
         }
 

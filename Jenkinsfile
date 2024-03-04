@@ -30,7 +30,7 @@ pipeline {
                     steps {
                        script {
                             // run the UI
-                            bat(script: 'ng serve', returnStatus: true)
+                            bat(script: 'start /B ng serve', returnStatus: true)
                             echo 'UI script completed successfully'                           
                         }
                     }
@@ -53,7 +53,7 @@ pipeline {
             steps {
                 script {
                     // Stop the UI gracefully (you may need to adjust this based on your needs)
-                    bat 'taskkill /IM ng.exe /F'
+                    bat 'taskkill /F /FI "MEMUSAGE gt 100" /IM node.exe'
                 }
             }
         }

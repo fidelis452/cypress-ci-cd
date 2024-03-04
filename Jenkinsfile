@@ -46,7 +46,7 @@ pipeline {
                 }
             }
         }
-        stage {
+        stage("artifacts") {
             steps {
                 archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
             }

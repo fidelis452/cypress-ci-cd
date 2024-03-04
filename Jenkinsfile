@@ -39,9 +39,7 @@ pipeline {
                     steps {
                             // Run Cypress Tests
                             bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
-                            echo 'Cypress tests completed'
-
-                        
+                            echo 'Cypress tests completed'                        
                     }
                 }
             }
@@ -49,6 +47,14 @@ pipeline {
         stage("artifacts") {
             steps {
                 archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
+            }
+        }
+        stage("Stop UI") {
+            steps {
+                script {
+                    // Stop the UI gracefully (you may need to adjust this based on your needs)
+                    bat 'taskkill /IM ng.exe /F'
+                }
             }
         }
     }

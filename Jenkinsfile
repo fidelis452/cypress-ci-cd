@@ -1,12 +1,14 @@
-// @charset windows-1252
-
 pipeline {
     agent any
-    
+
     parameters {
-        choice(name: 'BROWSER', choices:['chrome'], description: "Choose browser to run scripts")
+        choice(name: 'BROWSER', choices:['chrome','edge'], description: "Choose browser to run scripts")
     }
-    
+
+    // options {
+    //     buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10'))
+    // }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -14,7 +16,7 @@ pipeline {
                     credentialsId: 'e8fd72ce-1dc5-40ee-85ca-3fcb31b0c9bd',
                     url: 'https://github.com/fidelis452/cypress-ci-cd.git'
             }
-        }  
+        }
 
         stage('Install Dependencies') {
             steps {

@@ -31,7 +31,7 @@ pipeline {
                        script {
                             // run the UI
                             bat(script: 'start /B ng serve', returnStatus: true)
-                           
+                            echo 'UI script completed successfully'                           
                         }
                     }
                 }
@@ -39,6 +39,8 @@ pipeline {
                     steps {
                             // Run Cypress Tests
                             bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
+                            echo 'Cypress tests completed'
+
                         
                     }
                 }
@@ -46,8 +48,8 @@ pipeline {
         }
     }
 
-    post {
-        always {
+    stage {
+        steps {
             archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
         }
     }

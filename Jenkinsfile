@@ -2,27 +2,19 @@
 
 pipeline {
     agent any
-
+    
+    parameters {
+        choice(name: 'BROWSER', choices:['chrome'], description: "Choose browser to run scripts")
+    }
+    
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: '*/main',
+                git branch: 'main',
                     credentialsId: 'e8fd72ce-1dc5-40ee-85ca-3fcb31b0c9bd',
                     url: 'https://github.com/fidelis452/cypress-ci-cd.git'
             }
-        }     
-        
-        stage('Install Angular CLI') {
-            steps {
-                bat 'npm install -g @angular/cli'
-            }
-        }
-
-        stage('Install http-server') {
-            steps {
-                bat 'npm install -g http-server'
-            }
-        }
+        }  
 
         stage('Install Dependencies') {
             steps {
@@ -30,33 +22,33 @@ pipeline {
             }
         }
         
-        stage('Build Angular App') {
-            steps {
-                bat 'npx ng build'
-            }
-        }
+        // stage('Build Angular App') {
+        //     steps {
+        //         bat 'npx ng build'
+        //     }
+        // }
 
         stage('Serve Angular App') {
-            steps {
-                bat 'http-server -p 4200 -c-1 dist/angular-cypress-cicd'
-            }
-        }
+            parallel {
+                stage('Serve Angular App') {
+                    steps {
+                        // Use the full path to http-server binary
+                        bat(script: 'start /B ng serve', returnStatus: true)
+                    }
+                }
 
-            stage('Serve Angular App') {
-            steps {
-                        bat 'http-server -p 4200 -c-1'
-                    // Change the directory to the Angular app's dist folder
-                    // dir('dist/angular-cypress-cicd') {
-                        // Start http-server to serve the Angular app
-                    // }
+                stage('Run Cypress Tests and open report') {
+                    steps {
+                        bat 'npx cypress run'
+                    }
                 }
             }
-
-        stage('Run Cypress Tests and open report') {
-            steps {
-                bat 'npx cypress run --e2e'
-            }
         }
-        
+    }
+
+   post {
+        always {
+            archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
+        }
     }
 }

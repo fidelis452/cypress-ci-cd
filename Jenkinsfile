@@ -36,11 +36,11 @@ pipeline {
             }
         }
 
-        stage('Serve Angular App') {
-            steps {
-                bat 'http-server -p 4200 -c-1 dist/angular-cypress-cicd'
-            }
-        }
+        // stage('Serve Angular App') {
+        //     steps {
+        //         bat 'http-server -p 4200 -c-1 dist/angular-cypress-cicd'
+        //     }
+        // }
 
         stage('Run Cypress Tests and open report') {
             steps {

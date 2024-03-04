@@ -18,11 +18,11 @@ pipeline {
             }
         }
 
-        stage('Install http-server') {
-            steps {
-                bat 'npm install -g http-server'
-            }
-        }
+        // stage('Install http-server') {
+        //     steps {
+        //         bat 'npm install -g http-server'
+        //     }
+        // }
 
         stage('Install Dependencies') {
             steps {

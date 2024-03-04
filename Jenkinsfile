@@ -30,17 +30,27 @@ pipeline {
                     steps {
                        script {
                             // run the UI
-                            bat(script: 'start /B ng serve', returnStatus: true)
+                            bat(script: 'ng serve', returnStatus: true)
                             echo 'UI script completed successfully'                           
                         }
                     }
                 }
                 stage('Run Cypress Tests') {
                     steps {
-                            // Run Cypress Tests
-                            bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
-                            echo 'Cypress tests completed'                        
+                // Wait for the UI to start before running Cypress tests
+                script {
+                    echo 'Waiting for UI to start...'
+                    waitUntil {
+                        return bat(script: 'curl --silent --fail http://localhost:4200', returnStatus: true) == 0
                     }
+                    echo 'UI is ready for Cypress tests.'
+                }
+
+                // Run Cypress Tests
+                bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
+                echo 'Cypress tests completed'
+            }
+
                 }
                 stage("artifacts") {
                     steps {

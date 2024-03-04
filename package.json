@@ -6,14 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "cypress:open": "npx cypress open",
-    "test": "cypress run",
-    "test:mocha-reporter": "npm test --reporter mochawesome --reporter-options reportDir=\"results\",overwrite=false,html=false,json=true",
-    "merge-report": "mochawesome-merge \"results/*.json\" > index.json",
-    "build-report": "marge index.json",
-    "open-report": "npm run merge-report && npm run build-report && serve mochawesome-report",
-    "test:cy2": "cy2 run --reporter mochawesome --reporter-options reportDir=\"results\",overwrite=false,html=false,json=true",
-    "test:parallel": "CYPRESS_API_URL=http://localhost:1234 && yarn test:cy2 --parallel --record --key somekey"
+    "cypress:open": "npx cypress open"
   },
   "private": true,
   "dependencies": {
@@ -25,19 +18,19 @@
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
+    "cy2": "^3.1.7",
     "cypress": "^13.6.4",
-    "cypress-mochawesome-reporter": "^3.8.2",
+    "http-server": "latest",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3",
-    "cy2": "^3.1.7",
-    "http-server": "latest"
+    "zone.js": "~0.14.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.2.1",
     "@angular/cli": "^17.2.1",
     "@angular/compiler-cli": "^17.2.0",
     "@types/jasmine": "~5.1.0",
+    "cypress-mochawesome-reporter": "^3.8.2",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

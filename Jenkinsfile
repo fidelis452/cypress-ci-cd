@@ -46,11 +46,11 @@ pipeline {
                 }
             }
         }
-    }
-
-    stage {
-        steps {
-            archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
+        stage {
+            steps {
+                archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
+            }
         }
     }
+
 }

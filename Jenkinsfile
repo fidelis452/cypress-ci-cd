@@ -42,13 +42,14 @@ pipeline {
                             echo 'Cypress tests completed'                        
                     }
                 }
+                stage("artifacts") {
+                    steps {
+                        archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
+                    }
+                }
             }
         }
-        stage("artifacts") {
-            steps {
-                archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
-            }
-        }
+        
         stage("Stop UI") {
             steps {
                 script {

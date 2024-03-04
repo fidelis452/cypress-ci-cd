@@ -44,7 +44,7 @@ pipeline {
 
         stage('Run Cypress Tests and open report') {
             steps {
-                bat 'npm run test:mocha-reporter --env baseUrl=http://localhost:4200 && npm open-report'
+                bat 'npx cypress run --e2e'
             }
         }
         

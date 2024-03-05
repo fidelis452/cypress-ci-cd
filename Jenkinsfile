@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        choice(name: 'BROWSER', choices:['chrome','edge'], description: "Choose browser to run scripts")
+        choice(name: 'BROWSER', choices:['chrome', 'edge'], description: 'Choose browser to run scripts')
     }
 
     // options {
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'npm install' 
+                bat 'npm install'
             }
         }
 
@@ -28,37 +28,36 @@ pipeline {
             parallel {
                 stage('Run UI') {
                     steps {
-                       script {
+                        script {
                             // run the UI
-                            bat(script: 'ng serve', returnStatus: true)
-                            echo 'UI script completed successfully'                           
+                            bat(script: 'start /B ng serve', returnStatus: true)
+                            echo 'UI script completed successfully'
                         }
                     }
                 }
+
                 stage('Run Cypress Tests') {
                     steps {
-                // Wait for the UI to start before running Cypress tests
-                script {
-                    echo 'Waiting for UI to start...'
-                    waitUntil {
-                        return bat(script: 'curl --silent --fail http://localhost:4200', returnStatus: true) == 0
-                    }
-                    echo 'UI is ready for Cypress tests.'
-                }
+                        // Wait for the UI to start before running Cypress tests
+                        script {
+                            echo 'Waiting for UI to start...'
+                            waitUntil {
+                                return bat(script: 'curl --silent --fail http://localhost:4200', returnStatus: true) == 0
+                            }
+                            echo 'UI is ready for Cypress tests.'
+                        }
 
-                // Run Cypress Tests
-                bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
-                echo 'Cypress tests completed'
-            }
-
-                }
-                stage("artifacts") {
-                    steps {
-                        archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
+                        // Run Cypress Tests
+                        bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
+                        echo 'Cypress tests completed'
                     }
                 }
             }
         }
     }
-
+    post {
+        always {
+            archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
+        }
+    }
 }

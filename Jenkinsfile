@@ -43,6 +43,15 @@ pipeline {
                 reportFiles: 'index.html',
                 reportName: 'Cypress Reports'
             ])
+
+            / Send email
+            emailext(
+                subject: "Cypress Test Results",
+                body: "Cypress test results are available. Check the Jenkins job for details.",
+                to: "fideliswaweru19@gmail.com",  // Add the recipient email address
+                attachLog: true,
+                attachmentsPattern: '**/cypress/reports/*.html'
+            )
         }
     }
 }

@@ -33,6 +33,16 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'cypress/reports/**', allowEmptyArchive: true
+
+            // Publish HTML reports
+            publishHTML(target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'cypress/reports',
+                reportFiles: 'index.html',
+                reportName: 'Cypress Reports'
+            ])
         }
     }
 }

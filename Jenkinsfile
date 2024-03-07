@@ -9,7 +9,7 @@ pipeline {
         stage('Fetch Code') {
             steps {
                 git branch: 'main',
-                    credentialsId: 'e8fd72ce-1dc5-40ee-85ca-3fcb31b0c9bd',
+                    credentialsId: 'df4ab154-c415-4d2c-a5cb-0f4dd99339d7',
                     url: 'https://github.com/fidelis452/cypress-ci-cd.git'
             }
         }

@@ -5,10 +5,6 @@ pipeline {
         }
     }
 
-    // parameters {
-    //     choice(name: 'BROWSER', choices: ['chrome', 'edge'], description: 'Choose browser to run scripts')
-    // }
-
     stages {
         stage('Fetch Code') {
             steps {

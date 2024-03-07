@@ -5,6 +5,8 @@ pipeline {
         }
     }
 
+    tools{nodejs 'node20.11'}
+
     stages {
         stage('Fetch Code') {
             steps {

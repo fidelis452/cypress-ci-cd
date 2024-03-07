@@ -16,14 +16,14 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+                sh 'npm install'
             }
         }
 
         stage('Run Cypress Tests') {
             steps {
                 // Run Cypress Tests
-                bat "npx cypress run --browser chrome" // Use 'bat' for Windows command
+                sh "npx cypress run --browser chrome" // Use 'bat' for Windows command
                 // bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
                 echo 'Cypress tests completed'
             }

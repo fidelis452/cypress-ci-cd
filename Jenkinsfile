@@ -22,14 +22,26 @@ pipeline {
             }
         }
 
-        stage('Run Cypress Tests') {
+        stage('Build and Test') {
             steps {
-                // Run Cypress Tests
-                sh "npx cypress run --browser chrome" // Use 'bat' for Windows command
-                // bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
-                echo 'Cypress tests completed'
+                script{
+                    docker.build("fideliswaweu19/angular-cypress-repo:latest")
+                    docker.build("fideliswaweu19/angular-cypress-repo:latest").inside{
+                        sh 'npm install'
+                        sh 'npx cypress run --browser chrome'
+                    }
+                }
             }
         }
+
+        // stage('Run Cypress Tests') {
+        //     steps {
+        //         // Run Cypress Tests
+        //         sh "npx cypress run --browser chrome" // Use 'bat' for Windows command
+        //         // bat "npx cypress run --browser ${params.BROWSER}" // Use 'bat' for Windows command
+        //         echo 'Cypress tests completed'
+        //     }
+        // }
     }
 
     post {

@@ -1,11 +1,16 @@
-FROM node:alpine
+FROM node:alpine AS builder
 
+# Set the working directory in the container
 WORKDIR /usr/src/app
 
-COPY . /usr/src/app
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-RUN npm install -g @angular/cli
-
+# Install dependencies
 RUN npm install
 
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Copy the Angular app files to the working directory
+COPY . .
+
+# Build the Angular app
+RUN npm run build

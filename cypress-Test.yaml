@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cypress-test
+spec:
+  template:
+    spec:
+      containers:
+        - name: cypress-container
+          image: fideliswaweu19/angular-cypress-repo:latest
+          workingDir: /e2e
+          command: 
+            - "npx"
+            - "cypress" 
+            - "run"
+      restartPolicy: Never
+  backoffLimit: 1
